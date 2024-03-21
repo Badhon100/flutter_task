@@ -3,7 +3,7 @@ import 'package:flutter_task/presentaion/screens/saved_screen.dart';
 
 class NavbarItems {
   List pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const SavedScreen(),
   ];
 }
