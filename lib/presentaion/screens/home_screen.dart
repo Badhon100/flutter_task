@@ -31,54 +31,57 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Stack(children: [
-      MaplibreMap(
-        initialCameraPosition: initialPosition,
-        styleString: mapUrl,
-        onMapCreated: (MaplibreMapController mapController) {
-          //called when map object is created
-          mController =
-              mapController; // use the MaplibreMapController for map operations
+    return Scaffold(
+      body: Stack(
+        children: [
+          MaplibreMap(
+            initialCameraPosition: initialPosition,
+            styleString: mapUrl,
+            onMapCreated: (MaplibreMapController mapController) {
+              //called when map object is created
+              mController =
+                  mapController; // use the MaplibreMapController for map operations
 
-          mController?.onSymbolTapped.add(
-              _OnSymboltapped); // add symbol tap event listener to mapcontroller
-        },
-        onStyleLoadedCallback: () {
-          // Create SymbolOption for creating a symbol in map
-          SymbolOptions symbolOptions = SymbolOptions(
-            geometry: cooedinates ?? const LatLng(23.810733342701525,
-                    90.42092717921179), // location of the symbol, required
-            iconImage: 'custom-marker', // icon image of the symbol
-            //optional parameter to configure the symbol
-            iconSize:
-                .4, // size of the icon in ratio of the actual size, optional
-            iconAnchor:
-                'bottom', // anchor direction of the icon on the location specified,  optional
-            textField: 'test', // Text to show on the symbol, optional
-            textSize: 12.5,
-            textOffset: Offset(0,
-                1.2), // shifting the text position relative to the symbol with x,y axis value, optional
-            textAnchor:
-                'bottom', // anchor direction of the text on the location specified, optional
-            textColor: '#000000',
-            textHaloBlur: 1,
-            textHaloColor: '#ffffff',
-            textHaloWidth: 0.8,
-          );
-          addImageFromAsset("custom-marker", "assets/marker.png").then((value) {
-            mController?.addSymbol(symbolOptions);
-          });
-        },
-        onMapClick: (point, coordinates) {
-          
-          setState(() {
-            cooedinates = cooedinates;
-          });
-          print("coordinates: $coordinates");
-        },
-      ),
-      Positioned(
-          child: Padding(
+              mController?.onSymbolTapped.add(
+                  _OnSymboltapped); // add symbol tap event listener to mapcontroller
+            },
+            onStyleLoadedCallback: () {
+              // Create SymbolOption for creating a symbol in map
+              SymbolOptions symbolOptions = SymbolOptions(
+                geometry: cooedinates ??
+                    const LatLng(23.810733342701525,
+                        90.42092717921179), // location of the symbol, required
+                iconImage: 'custom-marker', // icon image of the symbol
+                //optional parameter to configure the symbol
+                iconSize:
+                    .4, // size of the icon in ratio of the actual size, optional
+                iconAnchor:
+                    'bottom', // anchor direction of the icon on the location specified,  optional
+                // textField: 'test', // Text to show on the symbol, optional
+                textSize: 12.5,
+                textOffset: const Offset(0,
+                    1.2), // shifting the text position relative to the symbol with x,y axis value, optional
+                textAnchor:
+                    'bottom', // anchor direction of the text on the location specified, optional
+                textColor: '#000000',
+                textHaloBlur: 1,
+                textHaloColor: '#ffffff',
+                textHaloWidth: 0.8,
+              );
+              addImageFromAsset("custom-marker", "assets/marker.png")
+                  .then((value) {
+                mController?.addSymbol(symbolOptions);
+              });
+            },
+            onMapClick: (point, coordinates) {
+              setState(() {
+                cooedinates = cooedinates;
+              });
+              print("coordinates: $coordinates");
+            },
+          ),
+          Positioned(
+            child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: width * 0.054, vertical: height * 0.02),
               child: Container(
@@ -127,8 +130,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-              )))
-    ]);
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        backgroundColor: ColorConst.white,
+        onPressed: () {},
+        child: SvgPicture.asset(
+          ImageConst.actionButton,
+        ),
+      ),
+    );
   }
 
   _OnSymboltapped(Symbol symbol) {

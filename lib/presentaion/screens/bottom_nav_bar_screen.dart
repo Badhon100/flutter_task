@@ -20,59 +20,85 @@ class BottomNavBarScreen extends StatelessWidget {
         return SafeArea(
           child: Scaffold(
             body: NavbarItems().pages[state.tabIndex],
-            bottomNavigationBar: Theme(
-              data: ThemeData(
-                canvasColor:
-                    ColorConst.white, // Set the background color here
+            bottomNavigationBar: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0), // Adjust this value as needed
+                topRight:
+                    Radius.circular(20.0), // Adjust this value as needed
               ),
-              child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                  ),
-                ),
-                height: height * 0.08,
-                child: BottomNavigationBar(
-                  currentIndex: state.tabIndex,
-                  onTap: (index) {
-                    BlocProvider.of<BottomNavigationBloc>(context)
-                        .add(TabChanged(tabIndex: index));
-                  },
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: (state.tabIndex != 0)
-                          ? SvgPicture.asset(ImageConst.bariKoiMap)
-                          : Container(
-                              color: ColorConst.primaryColor,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  ImageConst.bariKoiMap,
-                                  color: ColorConst.primaryLight,
-                                ),
+              child: BottomAppBar(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: (state.tabIndex == 0)
+                              ? ColorConst.primaryColor
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: IconButton(
+                        icon: Column(
+                          children: [
+                            SvgPicture.asset(
+                              ImageConst.bariKoiMap,
+                              color: (state.tabIndex == 0)
+                                  ? ColorConst.white
+                                  : ColorConst.primaryLight,
+                            ),
+                            Text(
+                              "Barikoi Map",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: (state.tabIndex == 0)
+                                    ? ColorConst.white
+                                    : ColorConst.primaryLight,
                               ),
                             ),
-                      label: 'BariKoi Map',
+                          ],
+                        ),
+                        onPressed: () {
+                          BlocProvider.of<BottomNavigationBloc>(context)
+                              .add(TabChanged(tabIndex: 0));
+                        },
+                      ),
                     ),
-                    BottomNavigationBarItem(
-                      icon: (state.tabIndex != 1)
-                          ? SvgPicture.asset(ImageConst.saved)
-                          : SvgPicture.asset(ImageConst.saved),
-                      label: 'Saved',
+                    Container(
+                      decoration: BoxDecoration(
+                          color: (state.tabIndex == 1)
+                              ? ColorConst.primaryColor
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: IconButton(
+                        icon: Column(
+                          children: [
+                            SvgPicture.asset(
+                              ImageConst.saved,
+                              color: (state.tabIndex == 1)
+                                  ? ColorConst.white
+                                  : ColorConst.primaryLight,
+                            ),
+                            Text(
+                              "Saved",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: (state.tabIndex == 1)
+                                    ? ColorConst.white
+                                    : ColorConst.primaryLight,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          BlocProvider.of<BottomNavigationBloc>(context).add(
+                            TabChanged(tabIndex: 1),
+                          );
+                        },
+                      ),
                     ),
                   ],
-                  showUnselectedLabels: true,
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: ColorConst.white,
-                  unselectedItemColor: ColorConst.primaryColor,
-                  selectedLabelStyle: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: ColorConst.white,
-                      fontSize: 11),
-                  unselectedLabelStyle: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: ColorConst.primaryColor,
-                      fontSize: 11),
                 ),
               ),
             ),
